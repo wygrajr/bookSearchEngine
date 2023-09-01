@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
-import { loginUser } from '../utils/API';
+import { useMutation} from '@apollo/client';
+import { LOGIN } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 const LoginForm = () => {
@@ -18,6 +19,7 @@ const LoginForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
+    const [login, { error }] = useMutation(LOGIN);
     // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -26,7 +28,9 @@ const LoginForm = () => {
     }
 
     try {
-      const response = await loginUser(userFormData);
+      const response = await login({
+        variables: {...userFormData}
+      });
 
       if (!response.ok) {
         throw new Error('something went wrong!');
