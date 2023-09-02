@@ -15,7 +15,7 @@ const LoginForm = () => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
-  
+
   const [login, { error }] = useMutation(LOGIN);
 
   const handleFormSubmit = async (event) => {
@@ -29,15 +29,15 @@ const LoginForm = () => {
     }
 
     try {
-      const response = await login({
+      const {data} = await login({
         variables: {...userFormData}
       });
 
-      if (!response.ok) {
+      if (error) {
         throw new Error('something went wrong!');
       }
 
-      const { token, user } = await response.json();
+      const { token, user } = await data.login;
       console.log(user);
       Auth.login(token);
     } catch (err) {
