@@ -32,10 +32,10 @@ const resolvers = {
       return {user,token};
     },
 
-    saveBook: async (_, { user, body }) => {
+    saveBook: async (parent, args, { user, body }) => {
       const updatedUser = await User.findOneAndUpdate(
         { _id: user._id },
-        { $addToSet: { savedBooks: body } },
+        { $addToSet: { savedBooks: body.variables } },
         { new: true, runValidators: true }
       );
       return updatedUser;
