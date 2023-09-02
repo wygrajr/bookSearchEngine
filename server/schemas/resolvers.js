@@ -41,10 +41,11 @@ const resolvers = {
       return updatedUser;
     },
 
-    removeBook: async (_, { user, params }) => {
+    removeBook: async (parent, args, { user, body }) => {
+      console.log(body);
       const updatedUser = await User.findOneAndUpdate(
         { _id: user._id },
-      { $pull: { savedBooks: { bookId: params.bookId } } },
+      { $pull: { savedBooks: { bookId: body.variables.bookId } } },
       { new: true }
       );
       return updatedUser;
