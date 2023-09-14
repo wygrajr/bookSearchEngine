@@ -16,7 +16,7 @@ const LoginForm = () => {
     setUserFormData({ ...userFormData, [name]: value });
   };
 
-  const [login, { error }] = useMutation(LOGIN);
+  let [login, { error }] = useMutation(LOGIN);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -34,7 +34,7 @@ const LoginForm = () => {
       });
 
       if (error) {
-        console.error(error)
+        error = null
         throw new Error('something went wrong!');
       }
 
