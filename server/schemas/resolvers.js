@@ -14,7 +14,7 @@ const resolvers = {
   },
   Mutation: {
     login: async (_, body) => {
-      const user = await User.findOne({ $or: [{ username: body.username }, { email: body.email }] });
+      const user = await User.findOne({ email: body.email });
       const correctPw = await user.isCorrectPassword(body.password);
       if (!correctPw) {
         return res.status(400).json({ message: 'Wrong password!' });
